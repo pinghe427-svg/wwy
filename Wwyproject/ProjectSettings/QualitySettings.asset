@@ -1,5 +1,5 @@
 %YAML 1.1
-%TAG !u! tag:yousandi.cn,2023:
+%TAG !u! tag:unity3d.com,2011:
 --- !u!47 &1
 QualitySettings:
   m_ObjectHideFlags: 0
@@ -223,7 +223,6 @@ QualitySettings:
     GameCoreXboxOne: 5
     Nintendo 3DS: 5
     Nintendo Switch: 5
-    OpenHarmony: 2
     PS4: 5
     PS5: 5
     Stadia: 5
