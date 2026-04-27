@@ -108,6 +108,7 @@ public class DragonExample : MonoBehaviour
     private bool mainRideCameraOriginalParentCaptured;
 
     private float groundY;
+    private float hoverBaseY;
     private Vector3 takeoffStartPosition;
     private float takeoffElapsed;
     private float landingStartY;
@@ -559,10 +560,10 @@ public class DragonExample : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ApplyAirForwardLift();
-        }
+        float targetY = hoverBaseY + (Input.GetKey(KeyCode.W) ? airForwardLiftY : 0f);
+        Vector3 airPosition = transform.position;
+        airPosition.y = targetY;
+        transform.position = airPosition;
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -572,13 +573,6 @@ public class DragonExample : MonoBehaviour
         }
 
         SetAirAnimationMode(AirAnimationMode.HoverIdle);
-    }
-
-    private void ApplyAirForwardLift()
-    {
-        Vector3 liftedPosition = transform.position;
-        liftedPosition.y += airForwardLiftY;
-        transform.position = liftedPosition;
     }
 
     private void BeginLanding()
@@ -665,6 +659,7 @@ public class DragonExample : MonoBehaviour
                 ForcePlayState(TakeOffParam);
                 break;
             case DragonRideState.MountedAirHoverMove:
+                hoverBaseY = transform.position.y;
                 SetAirAnimationMode(AirAnimationMode.HoverIdle);
                 break;
             case DragonRideState.MountedLanding:
