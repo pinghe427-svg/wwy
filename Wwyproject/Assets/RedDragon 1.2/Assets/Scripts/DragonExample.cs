@@ -787,21 +787,28 @@ public class DragonExample : MonoBehaviour
             SnapRideCamera();
         }
 
+        float airLiftCompensationY = GetCurrentAirLiftCompensationY();
+
         if (mainRideCamera.transform.parent == transform && rideCameraPoseCaptured)
         {
-            mainRideCamera.transform.localPosition = rideCameraLocalOffset;
+            Vector3 compensatedLocalOffset = rideCameraLocalOffset;
+            compensatedLocalOffset.y -= airLiftCompensationY;
+            mainRideCamera.transform.localPosition = compensatedLocalOffset;
             mainRideCamera.transform.localRotation = rideCameraLocalRotation;
             return;
         }
 
         if (rideCameraPoseCaptured)
         {
-            mainRideCamera.transform.position = transform.TransformPoint(rideCameraLocalOffset);
+            Vector3 capturedPosePosition = transform.TransformPoint(rideCameraLocalOffset);
+            capturedPosePosition.y -= airLiftCompensationY;
+            mainRideCamera.transform.position = capturedPosePosition;
             mainRideCamera.transform.rotation = transform.rotation * rideCameraLocalRotation;
             return;
         }
 
         Vector3 desiredPosition = transform.TransformPoint(followCameraOffset);
+        desiredPosition.y -= airLiftCompensationY;
         float smoothFactor = 1f - Mathf.Exp(-Mathf.Max(0.01f, followSmooth) * Time.deltaTime);
         mainRideCamera.transform.position = Vector3.Lerp(mainRideCamera.transform.position, desiredPosition, smoothFactor);
 
@@ -821,9 +828,13 @@ public class DragonExample : MonoBehaviour
             return;
         }
 
+        float airLiftCompensationY = GetCurrentAirLiftCompensationY();
+
         if (mainRideCamera.transform.parent == transform && rideCameraPoseCaptured)
         {
-            mainRideCamera.transform.localPosition = rideCameraLocalOffset;
+            Vector3 compensatedLocalOffset = rideCameraLocalOffset;
+            compensatedLocalOffset.y -= airLiftCompensationY;
+            mainRideCamera.transform.localPosition = compensatedLocalOffset;
             mainRideCamera.transform.localRotation = rideCameraLocalRotation;
             cameraSnapped = true;
             return;
@@ -831,13 +842,16 @@ public class DragonExample : MonoBehaviour
 
         if (rideCameraPoseCaptured)
         {
-            mainRideCamera.transform.position = transform.TransformPoint(rideCameraLocalOffset);
+            Vector3 capturedPosePosition = transform.TransformPoint(rideCameraLocalOffset);
+            capturedPosePosition.y -= airLiftCompensationY;
+            mainRideCamera.transform.position = capturedPosePosition;
             mainRideCamera.transform.rotation = transform.rotation * rideCameraLocalRotation;
             cameraSnapped = true;
             return;
         }
 
         Vector3 desiredPosition = transform.TransformPoint(followCameraOffset);
+        desiredPosition.y -= airLiftCompensationY;
         mainRideCamera.transform.position = desiredPosition;
 
         Vector3 lookTarget = transform.TransformPoint(followLookAtOffset);
@@ -848,6 +862,16 @@ public class DragonExample : MonoBehaviour
         }
 
         cameraSnapped = true;
+    }
+
+    private float GetCurrentAirLiftCompensationY()
+    {
+        if (state == DragonRideState.MountedAirHoverMove && Input.GetKey(KeyCode.W))
+        {
+            return airForwardLiftY;
+        }
+
+        return 0f;
     }
 
     private static float SmoothStep01(float t)

@@ -445,6 +445,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114944368084590064, guid: 51a5e06934e40e1468d0367239466bc4, type: 3}
+      propertyPath: yawSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114944368084590064, guid: 51a5e06934e40e1468d0367239466bc4, type: 3}
+      propertyPath: airMoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114944368084590064, guid: 51a5e06934e40e1468d0367239466bc4, type: 3}
+      propertyPath: groundMoveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114944368084590064, guid: 51a5e06934e40e1468d0367239466bc4, type: 3}
       propertyPath: dismountOffset.x
       value: 0
       objectReference: {fileID: 0}
