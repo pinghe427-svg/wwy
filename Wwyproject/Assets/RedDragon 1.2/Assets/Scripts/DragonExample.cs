@@ -560,9 +560,14 @@ public class DragonExample : MonoBehaviour
             return;
         }
 
-        float targetY = hoverBaseY + (Input.GetKey(KeyCode.W) ? airForwardLiftY : 0f);
+        //float targetY = hoverBaseY + (Input.GetKey(KeyCode.W) ? airForwardLiftY : 0f);
+        //Vector3 airPosition = transform.position;
+        //airPosition.y = targetY;
+        //transform.position = airPosition;
+
+        // 【核心修改】移除airForwardLiftY的Y偏移，龙的高度始终等于hoverBaseY
         Vector3 airPosition = transform.position;
-        airPosition.y = targetY;
+        airPosition.y = hoverBaseY; // 固定为起飞后的基准高度
         transform.position = airPosition;
 
         if (Input.GetKey(KeyCode.W))
